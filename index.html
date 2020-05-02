@@ -3,21 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,700;1,400&display=swap" rel="stylesheet"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
   <title>Rock Paper Scissors</title>
 </head>
 <body>
-  <h1>Rock, Paper, Scissors!</h1>
-  <h2>Scores</h2>
-  <p>Player's Score: <span id="playerDisplay"> 0</span></p>
-  <p>Computer's Score: <span id="computerDisplay"> 0</span></p>
-  <p>First to: <span id="winningDisplay">5</span></p>
-  <input id="numInput" type="number">
-  <input type="text" id="playerChoice" placeholder="Enter rock, paper, or scissors">
-  <button id="submit" type="submit">GO!</button>
-  <button id="reset">Reset</button>
+  <div class="main-container">
+    <header>
+      <h1>Rock, Paper, Scissors!</h1>
+    </header>
+    <section>
+      <h2>Scores</h2>
+      <p>YOU <span id="playerDisplay"> 0</span> :
+      <span id="computerDisplay">0</span> CPU</p>
+      <p>First to: <span id="winningDisplay">5</span></p>
+      <input id="numInput" type="number" placeholder="Change Winning Score">
 
-
-  <script type="text/javascript" src="app.js"></script>
+      
+    </section>
+    <section>
+      <div class="row">
+        <div class="card">
+          <button class="icon rock" value="rock">
+            <i class="far fa-hand-rock fa-9x"></i>
+          </button>
+        </div>
+        <div class="card">
+          <button class="icon paper" value="paper">
+            <i class="far fa-hand-paper fa-9x"></i>
+          </button>
+        </div>
+        <div class="card">
+          <button class="icon scissors" value="scissors">
+            <i class="far fa-hand-scissors fa-9x"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+    <button id="reset">Reset</button>
+  </div>
+  <footer>
+    <p>Programmed by  <a href="https://github.com/kchhan" target="_blank">Kevin Chhan</a></p>
+  </footer>
+<script type="text/javascript" src="app.js"></script>
 </body>
 </html>
