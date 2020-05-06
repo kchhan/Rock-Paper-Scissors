@@ -1,6 +1,5 @@
 :root {
   --primary-color: rgb(151, 154, 207);
-  --secondary-color: rgb(193, 204, 154);
 }
 
 * {
@@ -14,6 +13,9 @@ a {
   text-decoration: none;
 }
 
+.m-1 {
+  margin-top: 15px;
+}
 
 header {
   display: flex;
@@ -29,7 +31,7 @@ header {
 
 /* Container for body */
 .main-container {
-  max-width: 1100px;
+  max-width: 900px;
   margin: 5vh auto 0 auto;
   background-color: #d3d3d3;
   text-align: center;
@@ -38,31 +40,37 @@ header {
 
 .main-container h2 {
   font-size: 3.2rem;
-  margin: 15px;
+  margin: 10px;
 }
 
 .main-container p {
-  font-size: 3rem;
+  font-size: 2rem;
   margin: 10px;
 }
 
 .main-container input {
   margin-bottom: 20px;
-  width: 70px;
-  
 }
 
+/* Container for Player and Computer Card */
+.container {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
 
 /* RPS Cards */
 .row {
   display: flex;
+  justify-content: center;
 }
 
 .card {
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
   background: var(--primary-color);
-  margin: auto;
+  margin: 0 25px;
   border-radius: 15px;
 }
 
@@ -74,6 +82,9 @@ header {
   width: 100%;
 }
 
+#playerDisplay, #computerDisplay {
+  font-size: 3rem;
+}
 
 /* Reset Button */
 #reset {
