@@ -72,8 +72,9 @@ function removeChildren() {
 
 // Player Choices
 function playRock() {
+  checkValue();
+  removeChildren();
   if (!gameOver) {
-    removeChildren();
     computerSelection = computerPlay();
     if (computerSelection === "paper") {
       cpuAddPaper();
@@ -99,8 +100,9 @@ function playRock() {
 }
 
 function playPaper() {
+  checkValue();
+  removeChildren();
   if (!gameOver) {
-    removeChildren();
     computerSelection = computerPlay();
     if (computerSelection === "rock") {
       cpuAddRock();
@@ -126,8 +128,9 @@ function playPaper() {
 }
 
 function playScissors() {
+  checkValue();
+  removeChildren();
   if (!gameOver) {
-    removeChildren();
     computerSelection = computerPlay();
     if (computerSelection === "rock") {
       cpuAddRock();
@@ -161,8 +164,18 @@ function reset(){
   gameOver = false;
 }
 
+function checkValue() {
+  if (numInput.value < 1 || numInput.value > 15) {
+    return false;
+  } return true;
+}
+
+
 // Changes the number of wins needed
 numInput.addEventListener("change", function(){
+  if (!checkValue()){
+    return gameOver = true;
+  } 
 	winningDisplay.textContent = this.value;
 	winningScore = Number(this.value);
 	reset();
