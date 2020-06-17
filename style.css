@@ -6,7 +6,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Roboto", Arial, Helvetica, sans-serif;
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
 }
 
 a {
@@ -82,7 +82,8 @@ header {
   width: 100%;
 }
 
-#playerDisplay, #computerDisplay {
+#player-display,
+#computer-display {
   font-size: 3rem;
 }
 
@@ -93,7 +94,6 @@ header {
   margin: 20px;
   background-color: var(--primary-color);
   border: none;
-  
 }
 
 /* Footer */

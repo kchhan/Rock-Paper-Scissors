@@ -1,189 +1,271 @@
-const rock = document.querySelector(".rock");
-const paper = document.querySelector(".paper");
-const scissors = document.querySelector(".scissors")
-const resetBtn = document.querySelector("#reset");
-const playerCard = document.querySelector(".playerCard");
-const computerCard = document.querySelector(".computerCard");
-let winningDisplay = document.querySelector("#winningDisplay");
-let numInput = document.querySelector("#numInput");
-let playerScore = 0;
-let computerScore = 0;
-let winningScore = 5;
-let gameOver = false;
-
-// Computer random chooses a play
-function computerPlay() {
-  let choice = Math.floor(Math.random()*3+1);
-  switch (choice) {
-    case 1:
-      return "rock";
-    case 2: 
-      return "paper";
-    case 3: 
-      return "scissors";
-  }
-}
-
-// Showing player and cpu actions in Card
-function pAddRock() {
-  const showRock = document.createElement("i");
-  showRock.classList.add("far", "fa-hand-rock", "fa-4x", "m-1");
-  playerCard.appendChild(showRock);
-}
-
-function pAddPaper() {
-  const showPaper = document.createElement("i");
-  showPaper.classList.add("far", "fa-hand-paper", "fa-4x", "m-1");
-  playerCard.appendChild(showPaper);
-}
-
-function pAddScissors() {
-  const showScissors = document.createElement("i");
-  showScissors.classList.add("far", "fa-hand-scissors", "fa-4x", "m-1");
-  playerCard.appendChild(showScissors);
-}
-
-function cpuAddRock() {
-  const showRock = document.createElement("i");
-  showRock.classList.add("far", "fa-hand-rock", "fa-4x", "m-1");
-  computerCard.appendChild(showRock);
-}
-
-function cpuAddPaper() {
-  const showPaper = document.createElement("i");
-  showPaper.classList.add("far", "fa-hand-paper", "fa-4x", "m-1");
-  computerCard.appendChild(showPaper);
-}
-
-function cpuAddScissors() {
-  const showScissors = document.createElement("i");
-  showScissors.classList.add("far", "fa-hand-scissors", "fa-4x", "m-1");
-  computerCard.appendChild(showScissors);
-}
-
-function removeChildren() {
-  if (playerCard.childNodes.length !== 0) {
-    playerCard.removeChild(playerCard.childNodes[0]);
-  }
-  if (computerCard.childNodes.length !== 0) {
-    computerCard.removeChild(computerCard.childNodes[0]);
-  }
-}
-
-// Player Choices
-function playRock() {
-  checkValue();
-  removeChildren();
-  if (!gameOver) {
-    computerSelection = computerPlay();
-    if (computerSelection === "paper") {
-      cpuAddPaper();
-      computerScore++;
-      computerDisplay.textContent = computerScore;
-      console.log("You lose! Paper beats Rock");
-    }
-    if (computerSelection === "scissors") {
-      cpuAddScissors();
-      playerScore++;
-      playerDisplay.textContent = playerScore;
-      console.log("You Win! Rock beats Scissors");
-    } 
-    if (rock.value === computerSelection) {
-      cpuAddRock();
-      console.log("It's a tie! Try again");
-    }
-  }
-  if (playerScore === winningScore || computerScore === winningScore) {
-     return gameOver = true;
+// ItemCtrl
+const ItemCtrl = (() => {
+  const data = {
+    players: [
+      {
+        id: 'player',
+        score: 0,
+      },
+      {
+        id: 'computer',
+        score: 0,
+      },
+    ],
+    winningScore: 5,
+    gameOver: false,
   };
-  pAddRock();
-}
 
-function playPaper() {
-  checkValue();
-  removeChildren();
-  if (!gameOver) {
-    computerSelection = computerPlay();
-    if (computerSelection === "rock") {
-      cpuAddRock();
-      playerScore++;
-      playerDisplay.textContent = playerScore;
-      console.log("You Win! Paper beats Rock");
-    }
-    if (computerSelection === "scissors") {
-      cpuAddScissors();
-      computerScore++;
-      computerDisplay.textContent = computerScore;
-      console.log("You Lose! Scissors beats Paper");
-    } 
-    if (paper.value === computerSelection) {
-      cpuAddPaper();
-      console.log("It's a tie! Try again");
-    }
-  }
-  if (playerScore === winningScore || computerScore === winningScore) {
-    return gameOver = true;
+  // Public methods
+  return {
+    addToPlayerScore() {
+      data.players[0].score++;
+    },
+
+    addToComputerScore() {
+      data.players[1].score++;
+    },
+
+    getPlayerScore() {
+      return data.players[0].score;
+    },
+
+    getComputerScore() {
+      return data.players[1].score;
+    },
+
+    setWinningScore(num) {
+      data.winningScore = num;
+    },
+
+    checkForWinningScore() {
+      if (
+        data.players[0].score === data.winningScore ||
+        data.players[1].score === data.winningScore
+      ) {
+        return (data.gameOver = true);
+      }
+    },
+
+    isGameOver() {
+      return data.gameOver;
+    },
+
+    resetScores() {
+      data.players[0].score = 0;
+      data.players[1].score = 0;
+    },
+
+    resetGame() {
+      return (data.gameOver = false);
+    },
+
+    logData() {
+      return data;
+    },
   };
-  pAddPaper();
-}
+})();
 
-function playScissors() {
-  checkValue();
-  removeChildren();
-  if (!gameOver) {
-    computerSelection = computerPlay();
-    if (computerSelection === "rock") {
-      cpuAddRock();
-      computerScore++;
-      computerDisplay.textContent = computerScore;
-      console.log("You lose! Rock beats Scissors");
-    }
-    if (computerSelection === "paper") {
-      cpuAddPaper();
-      playerScore++;
-      playerDisplay.textContent = playerScore;
-      console.log("You Win! Scissors beats Paper");
-    } 
-    if (scissors.value === computerSelection) {
-      cpuAddScissors();
-      console.log("It's a tie! Try again");
-    }
-  }
-  if (playerScore === winningScore || computerScore === winningScore) {
-    return gameOver = true;
+// UICtrl
+const UICtrl = (() => {
+  const UISelectors = {
+    rock: '#rock',
+    paper: '#paper',
+    scissors: '#scissors',
+    resetBtn: '#reset',
+    playerCard: '#player-card',
+    computerCard: '#computer-card',
+    playerDisplay: '#player-display',
+    computerDisplay: '#computer-display',
+    winningDisplay: '#winning-display',
+    numInput: '#num-input',
   };
-  pAddScissors();
-}
 
-// Resets game back to Start
-function reset(){
-  playerScore = 0;
-  computerScore = 0;
-  playerDisplay.textContent = 0;
-  computerDisplay.textContent = 0;
-  gameOver = false;
-}
+  // For brevity
+  const $ = (element) => {
+    return document.querySelector(element);
+  };
 
-function checkValue() {
-  if (numInput.value < 1 || numInput.value > 15) {
-    return false;
-  } return true;
-}
+  // Public methods
+  return {
+    addPlayerSelection(choice) {
+      const icon = document.createElement('i');
+      icon.classList.add('far', `fa-hand-${choice}`, 'm-1', 'fa-4x');
+      $(UISelectors.playerCard).appendChild(icon);
+    },
 
+    addCpuSelection(choice) {
+      const icon = document.createElement('i');
+      icon.classList.add('far', `fa-hand-${choice}`, 'm-1', 'fa-4x');
+      $(UISelectors.computerCard).appendChild(icon);
+    },
 
-// Changes the number of wins needed
-numInput.addEventListener("change", function(){
-  if (!checkValue()){
-    return gameOver = true;
-  } 
-	winningDisplay.textContent = this.value;
-	winningScore = Number(this.value);
-	reset();
-});
+    updateDisplays() {
+      const playerScore = ItemCtrl.getPlayerScore();
+      const computerScore = ItemCtrl.getComputerScore();
+      $(UISelectors.playerDisplay).textContent = playerScore;
+      $(UISelectors.computerDisplay).textContent = computerScore;
+    },
 
-resetBtn.addEventListener("click", reset);
+    removeIcons() {
+      if ($(UISelectors.playerCard).childNodes.length !== 0) {
+        $(UISelectors.playerCard).removeChild(
+          $(UISelectors.playerCard).childNodes[0]
+        );
+      }
+      if ($(UISelectors.computerCard).childNodes.length !== 0) {
+        $(UISelectors.computerCard).removeChild(
+          $(UISelectors.computerCard).childNodes[0]
+        );
+      }
+    },
 
-//Play Buttons
-rock.addEventListener("click", playRock);
-paper.addEventListener("click", playPaper);
-scissors.addEventListener("click", playScissors);
+    changeWinningScoreDisplay(value) {
+      $(UISelectors.winningDisplay).textContent = value;
+    },
+
+    resetScoreDisplays() {
+      $(UISelectors.playerDisplay).textContent = 0;
+      $(UISelectors.computerDisplay).textContent = 0;
+    },
+
+    getSelectors() {
+      return UISelectors;
+    },
+  };
+})();
+
+// AppCtrl
+const App = ((ItemCtrl, UICtrl) => {
+  const loadEventListeners = () => {
+    const UISelectors = UICtrl.getSelectors();
+
+    document
+      .querySelector(UISelectors.rock)
+      .addEventListener('click', playRock);
+
+    document
+      .querySelector(UISelectors.paper)
+      .addEventListener('click', playPaper);
+
+    document
+      .querySelector(UISelectors.scissors)
+      .addEventListener('click', playScissors);
+
+    document
+      .querySelector(UISelectors.numInput)
+      .addEventListener('change', changeWinningScore);
+
+    document
+      .querySelector(UISelectors.resetBtn)
+      .addEventListener('click', reset);
+  };
+
+  const computerPlay = () => {
+    const choice = Math.floor(Math.random() * 3 + 1);
+    switch (choice) {
+      case 1:
+        return 'rock';
+      case 2:
+        return 'paper';
+      case 3:
+        return 'scissors';
+    }
+  };
+
+  const playRock = () => {
+    UICtrl.removeIcons();
+    if (!ItemCtrl.isGameOver()) {
+      const computerSelection = computerPlay();
+      switch (computerSelection) {
+        case 'rock':
+          UICtrl.addCpuSelection(computerSelection);
+          break;
+        case 'paper':
+          UICtrl.addCpuSelection(computerSelection);
+          ItemCtrl.addToComputerScore();
+          UICtrl.updateDisplays();
+          break;
+        case 'scissors':
+          UICtrl.addCpuSelection(computerSelection);
+          ItemCtrl.addToPlayerScore();
+          UICtrl.updateDisplays();
+          break;
+      }
+    }
+    ItemCtrl.checkForWinningScore();
+    UICtrl.addPlayerSelection('rock');
+  };
+
+  const playPaper = () => {
+    UICtrl.removeIcons();
+    if (!ItemCtrl.isGameOver()) {
+      const computerSelection = computerPlay();
+      switch (computerSelection) {
+        case 'rock':
+          UICtrl.addCpuSelection(computerSelection);
+          ItemCtrl.addToPlayerScore();
+          UICtrl.updateDisplays();
+          break;
+        case 'paper':
+          UICtrl.addCpuSelection(computerSelection);
+          break;
+        case 'scissors':
+          UICtrl.addCpuSelection(computerSelection);
+          ItemCtrl.addToComputerScore();
+          UICtrl.updateDisplays();
+          break;
+      }
+    }
+    ItemCtrl.checkForWinningScore();
+    UICtrl.addPlayerSelection('paper');
+  };
+
+  const playScissors = () => {
+    UICtrl.removeIcons();
+    if (!ItemCtrl.isGameOver()) {
+      const computerSelection = computerPlay();
+      switch (computerSelection) {
+        case 'rock':
+          UICtrl.addCpuSelection(computerSelection);
+          ItemCtrl.addToComputerScore();
+          UICtrl.updateDisplays();
+          break;
+        case 'paper':
+          UICtrl.addCpuSelection(computerSelection);
+          ItemCtrl.addToPlayerScore();
+          UICtrl.updateDisplays();
+          break;
+        case 'scissors':
+          UICtrl.addCpuSelection(computerSelection);
+          break;
+      }
+    }
+    ItemCtrl.checkForWinningScore();
+    UICtrl.addPlayerSelection('scissors');
+  };
+
+  const changeWinningScore = (e) => {
+    if (e.target.value > 0) {
+      const value = e.target.value;
+      UICtrl.changeWinningScoreDisplay(value);
+      ItemCtrl.setWinningScore(parseInt(value));
+      reset();
+    }
+  };
+
+  const reset = () => {
+    ItemCtrl.resetScores();
+    UICtrl.resetScoreDisplays();
+    ItemCtrl.resetGame();
+  };
+
+  // Public methods
+  return {
+    init() {
+      loadEventListeners();
+    },
+  };
+})(ItemCtrl, UICtrl);
+
+// Initialize app
+App.init();
