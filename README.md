@@ -1,1 +1,1 @@
-Created using Vanilla HTML, CSS, and Javascript.
+Created using HTML, CSS, and Javascript.
