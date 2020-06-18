@@ -78,6 +78,7 @@ const UICtrl = (() => {
     computerDisplay: '#computer-display',
     winningDisplay: '#winning-display',
     numInput: '#num-input',
+    gameDisplay: '#game-display',
   };
 
   // For brevity
@@ -123,9 +124,42 @@ const UICtrl = (() => {
       $(UISelectors.winningDisplay).textContent = value;
     },
 
+    updateGameDisplay(input) {
+      switch (input) {
+        case 'tie':
+          $(UISelectors.gameDisplay).textContent = "It's a tie!";
+          break;
+        case 'rock-paper':
+          $(UISelectors.gameDisplay).textContent =
+            'CPU wins round. Paper beats Rock.';
+          break;
+        case 'rock-scissors':
+          $(UISelectors.gameDisplay).textContent =
+            'Player wins round. Rock beats Scissors.';
+          break;
+        case 'paper-rock':
+          $(UISelectors.gameDisplay).textContent =
+            'Player wins round. Paper beats Rock.';
+          break;
+        case 'paper-scissors':
+          $(UISelectors.gameDisplay).textContent =
+            'CPU wins round. Scissors beats Paper.';
+          break;
+        case 'scissors-rock':
+          $(UISelectors.gameDisplay).textContent =
+            'CPU wins round. Rock beats Scissors.';
+          break;
+        case 'scissors-paper':
+          $(UISelectors.gameDisplay).textContent =
+            'Player wins round. Scissors beats Paper.';
+          break;
+      }
+    },
+
     resetScoreDisplays() {
       $(UISelectors.playerDisplay).textContent = 0;
       $(UISelectors.computerDisplay).textContent = 0;
+      $(UISelectors.gameDisplay).textContent = 'Game start!';
     },
 
     getSelectors() {
@@ -179,21 +213,24 @@ const App = ((ItemCtrl, UICtrl) => {
       switch (computerSelection) {
         case 'rock':
           UICtrl.addCpuSelection(computerSelection);
+          UICtrl.updateGameDisplay('tie');
           break;
         case 'paper':
           UICtrl.addCpuSelection(computerSelection);
           ItemCtrl.addToComputerScore();
           UICtrl.updateDisplays();
+          UICtrl.updateGameDisplay('rock-paper');
           break;
         case 'scissors':
           UICtrl.addCpuSelection(computerSelection);
           ItemCtrl.addToPlayerScore();
           UICtrl.updateDisplays();
+          UICtrl.updateGameDisplay('rock-scissors');
           break;
       }
+      UICtrl.addPlayerSelection('rock');
     }
     ItemCtrl.checkForWinningScore();
-    UICtrl.addPlayerSelection('rock');
   };
 
   const playPaper = () => {
@@ -205,19 +242,22 @@ const App = ((ItemCtrl, UICtrl) => {
           UICtrl.addCpuSelection(computerSelection);
           ItemCtrl.addToPlayerScore();
           UICtrl.updateDisplays();
+          UICtrl.updateGameDisplay('paper-rock');
           break;
         case 'paper':
           UICtrl.addCpuSelection(computerSelection);
+          UICtrl.updateGameDisplay('tie');
           break;
         case 'scissors':
           UICtrl.addCpuSelection(computerSelection);
           ItemCtrl.addToComputerScore();
           UICtrl.updateDisplays();
+          UICtrl.updateGameDisplay('paper-scissors');
           break;
       }
+      UICtrl.addPlayerSelection('paper');
     }
     ItemCtrl.checkForWinningScore();
-    UICtrl.addPlayerSelection('paper');
   };
 
   const playScissors = () => {
@@ -229,19 +269,22 @@ const App = ((ItemCtrl, UICtrl) => {
           UICtrl.addCpuSelection(computerSelection);
           ItemCtrl.addToComputerScore();
           UICtrl.updateDisplays();
+          UICtrl.updateGameDisplay('scissors-rock');
           break;
         case 'paper':
           UICtrl.addCpuSelection(computerSelection);
           ItemCtrl.addToPlayerScore();
           UICtrl.updateDisplays();
+          UICtrl.updateGameDisplay('scissors-paper');
           break;
         case 'scissors':
           UICtrl.addCpuSelection(computerSelection);
+          UICtrl.updateGameDisplay('tie');
           break;
       }
+      UICtrl.addPlayerSelection('scissors');
     }
     ItemCtrl.checkForWinningScore();
-    UICtrl.addPlayerSelection('scissors');
   };
 
   const changeWinningScore = (e) => {
